@@ -106,6 +106,12 @@ export interface AgentIntent {
   where: IntentWhere | null;
   why: string | null;
   selection: SelectionMode;
+  /**
+   * The language the request is written in (BCP 47: `en`, `de`, `ja`,
+   * `zh-Hant`). Everything the agent writes for the user (site reasons, form
+   * labels, result summaries) is in it. Absent on intents from before it.
+   */
+  language?: string;
 }
 
 /** How a site's signed-in token travels (raidr's `McpAuth.style`). */
@@ -537,7 +543,8 @@ export type AgentStep =
   | 'plan'
   | 'extract'
   | 'pick-best'
-  | 'dedupe';
+  | 'dedupe'
+  | 'site-regions';
 
 export const AGENT_STEPS: readonly AgentStep[] = [
   'understand',
@@ -548,7 +555,23 @@ export const AGENT_STEPS: readonly AgentStep[] = [
   'extract',
   'pick-best',
   'dedupe',
+  'site-regions',
 ];
+
+/**
+ * Where a website serves people: everywhere, or only some countries. Known
+ * per registrable domain (`sympla.com.br`, `africatickets.org`), so a site's
+ * API hosts share it. Sites are left out of a request for a country they do
+ * not serve.
+ */
+export interface SiteServiceArea {
+  /** Registrable domain, lower-case (`eventbrite.com`, `ticketpro.co.za`). */
+  domain: string;
+  /** Serves users in any country. */
+  global: boolean;
+  /** ISO 3166-1 alpha-2 codes it serves when not global (upper-case). */
+  countries: string[];
+}
 
 /** Body of `POST /llm/payload`. For `understand` the server adds `vocabulary` itself. */
 export interface LlmPayloadRequest {

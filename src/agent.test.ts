@@ -46,6 +46,7 @@ describe('v2 workflow types', () => {
       'extract',
       'pick-best',
       'dedupe',
+      'site-regions',
     ]);
     expect(SELECTION_MODES).toEqual(['single', 'best', 'all']);
     expect(SITE_PAGE_ROUTE_SOURCES).toEqual([

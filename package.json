@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/raidr_agent_types",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "TypeScript types for the RaidrAgent API",
   "type": "module",
   "main": "./dist/index.js",
@@ -40,12 +40,12 @@
   "author": "Sudobility",
   "license": "BUSL-1.1",
   "peerDependencies": {
-    "@sudobility/types": "^1.9.68",
-    "@sudobility/raidr_types": "^0.1.14"
+    "@sudobility/types": "^1.9.72",
+    "@sudobility/raidr_types": "^0.1.16"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "@sudobility/types": "^1.9.68",
+    "@sudobility/types": "^1.9.72",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^9.38.0",
@@ -56,14 +56,14 @@
     "rimraf": "^6.0.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15",
-    "@sudobility/raidr_types": "^0.1.14"
+    "@sudobility/raidr_types": "^0.1.16"
   },
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnqh/raidr_agent_types.git"
+    "url": "https://github.com/Sudobility/raidr_agent_types.git"
   },
   "homepage": "https://github.com/johnqh/raidr_agent_types#readme",
   "bugs": {

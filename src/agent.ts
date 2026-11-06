@@ -115,7 +115,7 @@ export interface AgentIntent {
 }
 
 /** How a site's signed-in token travels (raidr's `McpAuth.style`). */
-export type SiteAuthStyle = 'none' | 'bearer' | 'header' | 'cookie';
+export type SiteAuthStyle = 'none' | 'bearer' | 'header' | 'cookie' | 'query';
 
 /** One site the user can pick: a raidr MCP server. */
 export interface CandidateSite {

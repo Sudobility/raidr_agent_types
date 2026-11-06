@@ -290,6 +290,8 @@ export interface SitePlan {
   title: string;
   tools: string[];
   login: SiteLogin;
+  /** A provider-issued API key is entered in Settings, never captured by login. */
+  credentialType?: 'api_key';
   /** Shown to the user when `login !== 'none'`. */
   loginReason?: string;
   /** Set when the site cannot serve this request (it is then left out). */

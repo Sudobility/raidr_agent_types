@@ -6,7 +6,7 @@
       "name": "@sudobility/raidr_agent_types",
       "devDependencies": {
         "@eslint/js": "~9.39.5",
-        "@sudobility/raidr_types": "^0.1.20",
+        "@sudobility/raidr_types": "^0.1.21",
         "@sudobility/types": "^1.10.1",
         "@typescript-eslint/eslint-plugin": "~8.72.0",
         "@typescript-eslint/parser": "~8.72.0",
@@ -20,7 +20,7 @@
         "vitest": "~4.1.12",
       },
       "peerDependencies": {
-        "@sudobility/raidr_types": "^0.1.20",
+        "@sudobility/raidr_types": "^0.1.21",
         "@sudobility/types": "^1.10.1",
       },
     },
@@ -96,7 +96,7 @@
 
     "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
 
-    "@sudobility/raidr_types": ["@sudobility/raidr_types@0.1.20", "https://npm.pkg.github.com/download/@sudobility/raidr_types/0.1.20/43d769e59d07f115e6ae70f31e175b8c9e6b72bd", { "peerDependencies": { "@sudobility/types": "^1.9.79", "zod": "^4.0.0" } }, "sha512-B7Aw5VvtGvEWu1gsm99wkntcPWrsHxF3/PmJlX59a3DvAPATXNqFqGHGTbtr2cuECO7riHxoZNeQ/u333WVHEA=="],
+    "@sudobility/raidr_types": ["@sudobility/raidr_types@0.1.21", "https://npm.pkg.github.com/download/@sudobility/raidr_types/0.1.21/f5427422d314060b47fd35653e3a3a28ece6a48b", { "peerDependencies": { "@sudobility/types": "^1.10.1", "zod": "^4.0.0" } }, "sha512-ryWMYqFWmvyovqUc6vDzLZCBRiKnTtCILbIdnNKZY5wgl/vPSi+hI97E2ghhtUSiV6/BgqL/+Woh+rWbo5z2sw=="],
 
     "@sudobility/types": ["@sudobility/types@1.10.1", "https://npm.pkg.github.com/download/@sudobility/types/1.10.1/8e353f55822e0bc3fa9555dfe3aee593e140c012", {}, "sha512-LmJyjDDY5rHDET1wstkT0i59SSOrOXijL2iqrgfcK6VHtKcBEw7FFpbw4CyHn+dhR9kqkYpEydSfypoqw7crMg=="],
 

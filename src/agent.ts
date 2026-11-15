@@ -667,3 +667,108 @@ export interface SiteSearchHit {
 export interface RunImportResponse {
   runId: string;
 }
+
+// =============================================================================
+// Saved agents (synced settings)
+//
+// A saved agent is a reusable run definition — effectively a {@link RunRequest}
+// minus the per-run site tokens (which always come from the device's secure
+// storage at run time), plus a name and an optional schedule. The server only
+// stores the whole {@link SavedAgentsDocument} per user as an opaque settings
+// blob so a user's agents follow them across devices; it never schedules or
+// executes anything. All scheduling and execution happen on the client.
+// =============================================================================
+
+/** How often a saved agent's schedule fires. */
+export type AgentScheduleKind = 'interval' | 'daily' | 'weekly';
+
+export const AGENT_SCHEDULE_KINDS: readonly AgentScheduleKind[] = [
+  'interval',
+  'daily',
+  'weekly',
+] as const;
+
+/**
+ * A saved agent's schedule. The client computes {@link nextRunAt} and runs the
+ * agent when it is due while the app process is alive; the server never reads
+ * these fields.
+ */
+export interface AgentSchedule {
+  /** When false, the schedule is kept but does not fire. */
+  enabled: boolean;
+  kind: AgentScheduleKind;
+  /** For `kind: 'interval'`: minutes between runs (>= 1). */
+  intervalMinutes?: number;
+  /** For `kind: 'daily' | 'weekly'`: local time of day, `"HH:mm"` (24h). */
+  timeOfDay?: string;
+  /** For `kind: 'weekly'`: days to fire, 0 = Sunday … 6 = Saturday. */
+  daysOfWeek?: number[];
+  /** IANA time zone the `daily`/`weekly` time is interpreted in. */
+  timeZone?: string;
+  /** ISO 8601 of the last completed run, or null if it has never run. */
+  lastRunAt?: string | null;
+  /** ISO 8601 the client computed for the next run, or null. */
+  nextRunAt?: string | null;
+}
+
+/** A site a saved agent runs, without the per-run token ({@link RunSiteSelection} minus `token`). */
+export interface SavedAgentSite {
+  apiHost: string;
+  /** Tools `prepare` chose, most useful first. */
+  tools?: string[];
+}
+
+/**
+ * A reusable, user-named agent. Run by rebuilding a {@link RunRequest} from it:
+ * re-fetch each site's token from secure storage, then run cloud or local as
+ * usual. No secrets are ever stored on a saved agent.
+ */
+export interface SavedAgent {
+  /** Client-generated stable id (uuid). */
+  id: string;
+  /** User-facing name. */
+  name: string;
+  /** Optional free-form user tags. */
+  tags?: string[];
+  request: string;
+  intent: AgentIntent;
+  sites: SavedAgentSite[];
+  /** The user's answers to the prepared form, keyed by {@link FormField.name}. */
+  inputs: Record<string, FormValue>;
+  /** Captured at save time for a location-based run; re-fetched later if stale. */
+  location?: GeoLocation;
+  /** Optional recurring schedule; null/absent means run on demand only. */
+  schedule?: AgentSchedule | null;
+  /** ISO 8601. */
+  createdAt: string;
+  /** ISO 8601; bumped on every edit. Used for last-write-wins sync merges. */
+  updatedAt: string;
+}
+
+/** The current {@link SavedAgentsDocument.version}. */
+export const SAVED_AGENTS_DOCUMENT_VERSION = 1;
+
+/**
+ * The per-user settings blob the server stores and syncs. The server treats
+ * `agents` as opaque; the client owns its shape and merges by
+ * {@link SavedAgent.updatedAt}.
+ */
+export interface SavedAgentsDocument {
+  version: number;
+  agents: SavedAgent[];
+  /** ISO 8601 of the last write by any device. */
+  updatedAt: string;
+}
+
+/** Caps `PUT /agent-settings` enforces (the server answers 400 above them). */
+export const SAVED_AGENTS_LIMITS = {
+  agents: 200,
+  /** Approximate max body size in bytes. */
+  bytes: 1_000_000,
+} as const;
+
+/** Body of `PUT /api/v1/agent-settings`: the full settings blob to persist. */
+export type PutAgentSettingsRequest = SavedAgentsDocument;
+
+/** Answer of `GET /api/v1/agent-settings` and `PUT /api/v1/agent-settings`. */
+export type AgentSettingsResponse = SavedAgentsDocument;

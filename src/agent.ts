@@ -679,6 +679,18 @@ export interface RunImportResponse {
 // executes anything. All scheduling and execution happen on the client.
 // =============================================================================
 
+/**
+ * How a saved agent runs: `retrieval` replays the one-shot retrieval flow (the
+ * default); `autonomous` runs the client-side agentic tool-use loop that can
+ * take actions and keep per-agent memory (requires the user's own LLM key).
+ */
+export type AgentMode = 'retrieval' | 'autonomous';
+
+export const AGENT_MODES: readonly AgentMode[] = [
+  'retrieval',
+  'autonomous',
+] as const;
+
 /** How often a saved agent's schedule fires. */
 export type AgentScheduleKind = 'interval' | 'daily' | 'weekly';
 
@@ -730,6 +742,10 @@ export interface SavedAgent {
   name: string;
   /** Optional free-form user tags. */
   tags?: string[];
+  /** How the agent runs; absent/`retrieval` is the default one-shot flow. */
+  mode?: AgentMode;
+  /** For an autonomous agent: the natural-language goal (defaults to `request`). */
+  goal?: string;
   request: string;
   intent: AgentIntent;
   sites: SavedAgentSite[];

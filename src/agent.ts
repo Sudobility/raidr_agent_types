@@ -607,6 +607,30 @@ export interface LlmPayloadResponse {
   request: AiProviderRequest;
 }
 
+/**
+ * Body of `POST /agent/step`: one decision of the client-side agentic loop,
+ * made with this server's key through the managed `agent` ShapeShyft endpoint
+ * (the cloud route — no user key). The loop itself and all site calls stay on
+ * the device; only this single model decision is delegated to the server.
+ */
+export interface AgentStepRequest {
+  /**
+   * The dynamic decision inputs the managed `agent` prompt interpolates —
+   * `goal`, `tools`, `memory`, `observations`, and optional `context`. The
+   * prompt and output schema live on the endpoint, so this is data only.
+   */
+  input: Record<string, unknown>;
+}
+
+/**
+ * Answer of `POST /agent/step`: the model's structured decision
+ * (`{ thought, action?, done, respond? }`). Untrusted — the caller validates
+ * and coerces it.
+ */
+export interface AgentStepResponse {
+  output: unknown;
+}
+
 /** Body of `POST /candidates`: the intent's labels, most relevant first. Unranked label matches (local mode ranks them with `rank-sites`). */
 export interface CandidatesRequest {
   labels: string[];
